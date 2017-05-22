@@ -1,5 +1,4 @@
 # moneyGo
-================
 
 This is the base template for Ionic 2 starter apps.
 

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers:[SQLite,]
+  providers:[SQLite]
 })
 export class HomePage {
 
@@ -17,13 +18,18 @@ export class HomePage {
     type:''
   }
 
-  constructor(public navCtrl: NavController,public sqlite:SQLite) {
+  constructor(public navCtrl: NavController,public sqlite:SQLite,public storage:Storage) {
     //打开db
    this.sqlite.create({
        name:'data.db',
        location:'default'
-    }).then((resdb:SQLiteObject)=>{
-      this.db = resdb;
+    }).then((db:SQLiteObject)=>{
+      this.storage.set('db',db)
+      let self = this;
+      this.storage.get('db').then(data=>{
+        self.db = data;
+        alert(self.db)
+      })
       this.refreshMoneyList();
     })
   }
@@ -40,7 +46,9 @@ export class HomePage {
 
   //刷新数据
   public refreshMoneyList(){
+    alert("hello world")
     this.db.executeSql("select * from money",{}).then((data)=>{
+      alert(data.rows.length)
       this.moneyList = [];
       for(var i = 0 ;i < data.rows.length;i++){
         var tempItem = data.rows.item(i);

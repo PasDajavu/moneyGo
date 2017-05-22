@@ -4,18 +4,23 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Home</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="AddItem()">
+        <ion-icon name="md-add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-  <input type="text" [(ngModel)]="addMoney.money" placeholder="金额"/>
-  <input type="text" [(ngModel)]="addMoney.type" placeholder="类型"/>
+  <input type="text" [(ngModel)]="addMoney.money" placeholder="金额" />
+  <input type="text" [(ngModel)]="addMoney.type" placeholder="类型" />
   <button ion-button color="danger" (click)="addMoneyData()">新增</button>
   <button ion-button color="danger" (click)="refreshMoneyList()">刷新</button>
   <ion-list>
     <ion-item *ngFor="let money of moneyList">
-      {{money.id}}  {{money.money}}  {{money.date}}  {{money.type}}
+      {{money.id}} {{money.money}} {{money.date}} {{money.type}}
     </ion-item>
   </ion-list>
 </ion-content>

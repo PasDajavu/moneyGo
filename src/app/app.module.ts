@@ -4,7 +4,10 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { AddItem } from '../pages/addItem/addItem';
+import { GlobalData } from '../global/globalData';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { Storage } from '@ionic/storage';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -13,7 +16,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    AddItem,
   ],
   imports: [
     BrowserModule,
@@ -23,11 +26,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    AddItem,
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    GlobalData,
+    SQLite,
+    Storage,
     {provide: [ErrorHandler], useClass: IonicErrorHandler},
   ]
 })

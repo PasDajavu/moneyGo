@@ -16,14 +16,20 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
+  async init(){
+    //初始化DB
+    await this.globalData.initializeDB();
+    //打开DB
+    await this.globalData.openDB();
+  }
+
   constructor(public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public storage: Storage,
     public globalData:GlobalData,
   ) {
-    //初始化DB
-    this.globalData.initializeDB();
+    this.init();
     this.statusBar.styleDefault();
     this.splashScreen.hide();
   }

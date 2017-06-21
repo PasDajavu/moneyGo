@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Storage } from '@ionic/storage';
 import { GlobalData } from '../../global/globalData';
+import { AddItem } from '../addItem/addItem';
+
 
 @Component({
   selector: 'page-home',
@@ -12,28 +14,52 @@ import { GlobalData } from '../../global/globalData';
 export class HomePage {
 
   public db: SQLiteObject;
-  public moneyList: Array<Object>;
-  private addMoney = {
-    money: '',
-    date: '2017-1-02',
-    type: ''
+  public moneyList: any;
+
+  constructor(
+    public navCtrl: NavController,
+    public sqlite: SQLite,
+    public storage: Storage,
+    public globalData: GlobalData,
+    public modalCtrl: ModalController,
+  ) {
+    this.refreshMoneyList();
   }
 
-  constructor(public navCtrl: NavController, public sqlite: SQLite, public storage: Storage,public globalData:GlobalData,) {
+
+  //删除一条数据
+  deleteMoneyDate(id) {
+    let self = this;
+    this.globalData.deleteMoney(id).then((data) => {
+      self.refreshMoneyList();
+    });
   }
 
-  //新增一条数据
-  addMoneyData() {
-    this.globalData.addMoney({money:'10',date:'2017-3-10',type:'1'});
+  //打开新增页面
+  openMoneyPage() {
+    let addItem = this.modalCtrl.create(AddItem);
+    addItem.present();
+  }
+
+  //下拉刷新
+  refreshList(refresher) {
+    this.refreshMoneyList().then((data) => {});
+    setTimeout(function () {
+      refresher.complete();
+    }, 1000);
   }
 
   //刷新数据
   refreshMoneyList() {
     let self = this;
-    this.globalData.getMoneyList(function(dataList){
-      self.moneyList = dataList;
+    let promise = new Promise((resolve,reject) => {
+      this.globalData.getMoneyList().then((dataList) => {
+        self.moneyList = dataList;
+        resolve();
         console.log(dataList);
-        console.log("hello world")
-    });
+      })
+    })
+    return promise;
   }
+
 }

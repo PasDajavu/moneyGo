@@ -1,8 +1,36 @@
 <ion-header>
     <ion-navbar>
         <ion-title>新增账单</ion-title>
+        <ion-buttons end (click)="closeModal()">
+            <button ion-button>
+				<ion-icon name="md-close" class="icon_base"></ion-icon>
+			</button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content>
-    
+    <ion-list>
+        <ion-item>
+            <input type="text" [(ngModel)]='money.money' placeholder="金额" />
+        </ion-item>
+
+        <ion-item>
+            <ion-select [(ngModel)]='money.type'>
+                <ion-option value="1" [selected]>日常</ion-option>
+                <ion-option value="2">衣服</ion-option>
+                <ion-option value="3">其他</ion-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>日期</ion-label>
+            <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" [(ngModel)]="money.date"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+            <input type="text" [(ngModel)]='money.detail' placeholder="描述" />
+        </ion-item>
+    </ion-list>
+
+    <button ion-button color="danger" (click)="addMoneyData()">提交</button>
 </ion-content>
